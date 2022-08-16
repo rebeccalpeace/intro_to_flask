@@ -12,5 +12,5 @@ db = SQLAlchemy(app)
 # create an instance of Migrate which will be our migration engine and pass in the app and SQLAlchemy instance
 migrate = Migrate(app, db)
 
-from . import routes
+from . import routes, models
 
