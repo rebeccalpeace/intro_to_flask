@@ -2,7 +2,7 @@ from curses.ascii import SI
 from app import app
 from flask import render_template, redirect, url_for, flash
 from app.forms import SignUpForm, PostForm
-from app.models import User
+from app.models import User, Post
 
 
 
@@ -35,7 +35,18 @@ def signup():
         return redirect(url_for('index'))
     return render_template('signup.html', form=form)
 
-@app.route('/create')
+@app.route('/create', methods=['GET', 'POST'])
 def create():
     form = PostForm()
+    if form.validate_on_submit():
+        # get the data from the form
+        title = form.title.data
+        body = form.body.data
+        # create a new instance of Post with the form data
+        new_post = Post(title=title, body=body, user_id=1)
+        # flas a message saying the post was created
+        flash(f"{new_post.title} has been created.", 'secondary')
+        # redirect back to home page
+        return redirect(url_for('index'))
+        
     return render_template('createpost.html', form=form)
