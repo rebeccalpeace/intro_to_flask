@@ -20,4 +20,5 @@ class User(db.Model):
         db.session.add(self)
         db.session.commit()
 
-        
+    def __repr__(self):
+        return f"<User {self.id} | {self.username}>"
