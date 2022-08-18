@@ -14,6 +14,9 @@ db = SQLAlchemy(app)
 migrate = Migrate(app, db, render_as_batch=True)
 # create an instance of the LoginManager to handle authentication
 login = LoginManager(app)
+login.login_view = 'login' # tells the login manager which endpoint to redirect if someone is not logged in
+login.login_message = 'You must be logged in to create a post.'
+login.login_message_category = 'warning'
 
 from . import routes, models
 
