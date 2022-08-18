@@ -1,6 +1,6 @@
-from curses.ascii import SI
 from app import app
 from flask import render_template, redirect, url_for, flash
+from flask_login import login_user, logout_user
 from app.forms import SignUpForm, PostForm, LoginForm
 from app.models import User, Post
 
@@ -52,7 +52,34 @@ def create():
     return render_template('createpost.html', form=form)
 
 
-@app.route('/login')
+@app.route('/login', methods=['GET', 'POST'])
 def login():
     form = LoginForm()
+    if form.validate_on_submit():   # only for POST requests
+        # get username and password from form
+        username = form.username.data
+        password = form.password.data
+        # query the user table for a user with the same username as the form
+        user = User.query.filter_by(username=username).first()
+        # if the user exists and the password is correct for that user
+        if user is not None and user.check_password(password):
+            # log the user in with the login_user function from flask_login
+            login_user(user)
+            # flash a success message
+            flash(f"Welcome back {user.username}!", "success")
+            # redirect back to the home page
+            return redirect(url_for('index'))
+        # if no user with username or password incorrect
+        else:
+            # flash a danger message
+            flash('Incorrect username and/or password. Please try again.', 'danger')
+            # redirect back to login
+            return redirect(url_for('login'))
     return render_template('login.html', form=form)
+
+
+@app.route('/logout')
+def logout():
+    logout_user()
+    flash('You have successfully logged out.', 'primary')
+    return redirect(url_for('index'))

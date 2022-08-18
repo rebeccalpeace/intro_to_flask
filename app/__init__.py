@@ -11,7 +11,7 @@ app.config.from_object(Config)
 db = SQLAlchemy(app)
 
 # create an instance of Migrate which will be our migration engine and pass in the app and SQLAlchemy instance
-migrate = Migrate(app, db)
+migrate = Migrate(app, db, render_as_batch=True)
 # create an instance of the LoginManager to handle authentication
 login = LoginManager(app)
 
