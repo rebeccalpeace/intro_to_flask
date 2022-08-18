@@ -8,12 +8,8 @@ from app.models import User, Post
 
 @app.route('/')
 def index():
-    user_info = {
-        'username': 'rebeccap',
-        'email': 'rpeace@gmail.com'
-    }
-    colors = ['red', 'orange', 'yellow', 'green', 'blue', 'indigo', 'violet']
-    return render_template('index.html', user=user_info, colors=colors)
+    posts = Post.query.all()
+    return render_template('index.html', posts=posts)
 
 
 @app.route('/signup', methods=["GET", "POST"])
