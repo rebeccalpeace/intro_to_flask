@@ -18,5 +18,9 @@ login.login_view = 'login' # tells the login manager which endpoint to redirect 
 login.login_message = 'You must be logged in to create a post.'
 login.login_message_category = 'warning'
 
+
+from app.blueprints.api import api
+app.register_blueprint(api)
+
 from . import routes, models
 

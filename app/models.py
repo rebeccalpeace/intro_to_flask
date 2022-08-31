@@ -32,6 +32,15 @@ class User(db.Model, UserMixin):
         self.password = generate_password_hash(password)
         db.session.commit()
 
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "email": self.email,
+            "username": self.username,
+            "password": self.password,
+            "date_created": self.date_created
+        }
+
 @login.user_loader
 def load_user(user_id):
     return User.query.get(user_id)
@@ -61,3 +70,12 @@ class Post(db.Model):
     def delete(self):
         db.session.delete(self)
         db.session.commit()
+
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "title": self.title,
+            "body": self.body,
+            "date_created": self.date_created,
+            "user_id": self.user_id
+        }

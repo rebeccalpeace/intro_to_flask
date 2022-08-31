@@ -9,7 +9,7 @@
     <h6>Signed in as: {{ current_user.username }}</h6>
 
     {% for post in posts %}
-        <div class="card"">
+        <div class="card">
             <div class="card-body">
                 <a href="{{ url_for('view_post', post_id=post.id) }}">
                 <h5 class="card-title">{{ post.title }}</h5>
